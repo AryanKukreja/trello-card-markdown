@@ -9,8 +9,10 @@ function onBtnClick(t) {
 
 window.TrelloPowerUp.initialize({
     'card-buttons': function (t, opts) {
-        return t.card('all')
+        return t.card(t.getContext().card)
             .then(function (card) {
+                console.log(card);
+                console.log(JSON.stringify(card, null, 2));
                 console.log(JSON.stringify(card, null, 2));
                 return [{
                     icon: 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg', // don't use a colored icon here
