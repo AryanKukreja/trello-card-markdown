@@ -4,7 +4,7 @@ function convertCardToMarkdown(data) {
 
 let onBtnClick = function (t, opts) {
     const card = t.getContext().card;
-    return t.card(card)
+    return t.getAll()
         .then(function (data) {
             console.log(data);
             console.log(JSON.stringify(data, null, 2));
