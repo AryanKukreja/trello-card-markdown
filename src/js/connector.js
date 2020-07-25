@@ -2,9 +2,9 @@ function convertCardToMarkdown(data) {
 
 }
 
-let onBtnClick = function (tt, opts) {
-    let t = window.TrelloPowerUp.iframe();
+let onBtnClick = function (t, opts) {
     const card = t.getContext().card;
+    console.log(t.get(card, 'shared'))
     return t.get(card)
         .then(function (data) {
             console.log(data);
