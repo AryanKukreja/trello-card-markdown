@@ -1,7 +1,14 @@
+function convertCardToMarkdown(data) {
+
+}
+
 let onBtnClick = function (t, opts) {
     const card = t.getContext().card;
-    console.log(card);
-    console.log('Someone clicked the button');
+    return t.get(card, 'shared')
+        .then(function (data) {
+            console.log(data);
+            console.log(JSON.stringify(data, null, 2));
+        });
 };
 
 window.TrelloPowerUp.initialize({
