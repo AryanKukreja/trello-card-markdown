@@ -143,7 +143,7 @@ function fetchData(url, dataType) {
     .catch(err => console.error(err));
 }
 
-onBtnClick = function() {
+onBtnClick = function(t, opts) {
     markdownCheckListDetails = '';
     markdownMemberDetails = '';
     markdownListDetails = '';
@@ -164,6 +164,20 @@ onBtnClick = function() {
     fetchData(memberUrl + authDetails, 'members');
     fetchData(checkListUrl + authDetails, 'checklist');
 }
+
+let t = TrelloPowerUp.iframe();
+window.estimate.addEventListener('submit', function(event){
+    // Stop the browser trying to submit the form itself.
+    event.preventDefault();
+    return onBtnClick()
+        .then(function(){
+            t.closePopup();
+        });
+});
+
+t.render(function(){
+    t.sizeTo('#estimate').done();
+});
 
 window.TrelloPowerUp.initialize({
     'card-buttons': function (t, opts) {
