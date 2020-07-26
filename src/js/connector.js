@@ -39,7 +39,7 @@ function fectchCheckLists(url) {
     .catch(err => console.error(err));
 }
 
-function onBtnClick(cardId) {
+onBtnClick = function(t, optns) {
     const baseUrl = 'https://api.trello.com/1/cards/' + cardId;
     const checkListUrl = 'https://api.trello.com/1/cards/' + cardId + '/checklists';
     const boardUrl = 'https://api.trello.com/1/cards/' + cardId;
@@ -56,7 +56,7 @@ window.TrelloPowerUp.initialize({
                 return [{
                     icon: 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg', // don't use a colored icon here
                     text: 'Export to Markdown',
-                    callback: onBtnClick(card.id),
+                    callback: onBtnClick,
                     condition: 'always'
                 }];
             });
