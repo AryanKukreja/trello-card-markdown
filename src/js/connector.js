@@ -123,13 +123,17 @@ onBtnClick = function(t, opts) {
     const listUrl = baseUrl + '/list';
     const memberUrl = baseUrl + '/members';
 
-    fetchData(baseUrl + authDetails, 'card');
-    fetchData(boardUrl + authDetails, 'board');
-    fetchData(listUrl + authDetails, 'list');
-    fetchData(memberUrl + authDetails, 'members');
-    fetchData(checkListUrl + authDetails, 'checklist');
-
-    console.log(markdownOutput);
+    fetchData(baseUrl + authDetails, 'card')
+        .then(fetchData(boardUrl + authDetails, 'board')
+            .then(fetchData(listUrl + authDetails, 'list')
+                .then(fetchData(memberUrl + authDetails, 'members')
+                    .then(fetchData(checkListUrl + authDetails, 'checklist')
+                        .then(console.log(markdownOutput)
+                        )
+                    )
+                )
+            )
+        );
 }
 
 window.TrelloPowerUp.initialize({
