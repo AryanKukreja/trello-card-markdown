@@ -53,7 +53,9 @@ function addCardDetailsToOutput(cardInfo) {
     markdownCard += boardPlaceholder + '\n';
 
     // Add card description
-    markdownCard += '> ' + cardInfo.desc + '\n\n';
+    if (cardInfo.desc !== '') {
+        markdownCard += '> ' + cardInfo.desc + '\n\n';
+    }
 
     // Add labels
     if (cardInfo.labels.length > 0) {
@@ -63,7 +65,9 @@ function addCardDetailsToOutput(cardInfo) {
     }
 
     // Add due date
-    markdownCard += '\n\n**Due on: ' +  cardInfo.due.split('T')[0] + '**\n\n';
+    if (cardInfo.due) {
+        markdownCard += '\n\n**Due on: ' +  cardInfo.due.split('T')[0] + '**\n\n';
+    }
 
     markdownCardDetails += markdownCard;
 }
@@ -73,7 +77,7 @@ function addMembersToOutput(memberInfo) {
     if (memberInfo.length > 0) {
         markdownMembers += '## Members of Card: \n'
         memberInfo.forEach((member) => {
-            markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + ' ' + member.fullName + '\n';
+            markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + '  ' + member.fullName + '\n';
         })
     }
 
