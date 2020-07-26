@@ -1,7 +1,7 @@
 require('dotenv').config({path: '../../.env'});
 const fetch = require('node-fetch');
 
-const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 4px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
+const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 4px; margin-right: 10px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
 const memberTemplate = '<b style="background-color: #9b9c9e; display: inline-block; border-radius: 50%; width: 40px; height: 40px; line-height: 40px; text-align: center;">ENTER_MEMBER_HERE</b>'
 const colors = {
     "green": "#61BD4F",
@@ -28,9 +28,9 @@ let dataObtained = 0;
 function addCheckListToOutput(checkLists) {
     let markdownCheckLists = '';
     if (checkLists.length > 0) {
-        markdownCheckLists = '# CheckLists\n';
+        markdownCheckLists = '## CheckLists\n';
         checkLists.forEach((checkList) => {
-            let markdownCheckList = '## CheckList: \'' + checkList.name + '\'\n';
+            let markdownCheckList = '### CheckList: \'' + checkList.name + '\'\n';
             checkList.checkItems.forEach((item) => {
                 if (item.state === 'incomplete') {
                     markdownCheckList += ' - [ ] ' + item.name + '\n';
@@ -68,7 +68,7 @@ function addCardDetailsToOutput(cardInfo) {
 function addMembersToOutput(memberInfo) {
     let markdownMembers = '';
     if (memberInfo.length > 0) {
-        markdownMembers += '## Members of Card: '
+        markdownMembers += '## Members of Card: \n'
         memberInfo.forEach((member) => {
             markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + ' ' + member.name + '\n';
         })
@@ -78,7 +78,7 @@ function addMembersToOutput(memberInfo) {
 }
 
 function addBoardToOutput(boardInfo) {
-    markdownBoardDetails += boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board');
+    markdownBoardDetails += boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
 }
 
 function addListToOutput(listInfo) {
