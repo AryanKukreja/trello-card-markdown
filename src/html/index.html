@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <title>Export Card to Markdown</title>
 
+    <script src="https://p.trellocdn.com/power-up.min.js" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
   </head>
   <body>
     <script src="../js/connector.js"></script>
-    <script src="https://p.trellocdn.com/power-up.min.js" crossorigin="anonymous"></script>
 
     <form id="fields">
+
       <label for="showBoardAndList"><input type="checkbox" name="showBoardAndList" id="showBoardAndList" value="showBoardAndList">Board and List of Card</label>
       <br>
-      <label for="showCheckLists"><input type="checkbox" name="showCheckLists" value="showCheckLists" id="showCheckLists">Checklist(s)</label>
+      <input type="checkbox" name="showCheckLists" value="showCheckLists" id="showCheckLists">
+      <label for="showCheckLists">Checklist(s)</label>
       <br>
-      <label for="showMembers"><input type="checkbox" name="showMembers" value="showMembers" id="showMembers">Members</label>
+      <input type="checkbox" name="showMembers" value="showMembers" id="showMembers">
+      <label for="showMembers">Members</label>
       <br><br>
       <button type="submit" class="mod-primary" onclick="onBtnClick()">Save</button>
     </form>
