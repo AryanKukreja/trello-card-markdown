@@ -96,27 +96,25 @@ function fetchData(url, dataType) {
         console.log(JSON.parse(text));
 
         if (dataType === 'checklist') {
-            console.log(addCheckListToOutput(JSON.parse(text)));
+            addCheckListToOutput(JSON.parse(text));
         }
         else if (dataType === 'board') {
-            console.log(addBoardToOutput(JSON.parse(text)));
+            addBoardToOutput(JSON.parse(text));
         }
         else if (dataType === 'list') {
-            console.log(addListToOutput(JSON.parse(text)));
+            addListToOutput(JSON.parse(text));
         }
         else if (dataType === 'card') {
-            console.log(addCardDetailsToOutput(JSON.parse(text)));
+            addCardDetailsToOutput(JSON.parse(text));
         }
         else if (dataType === 'members') {
-            console.log(addMembersToOutput(JSON.parse(text)));
+            addMembersToOutput(JSON.parse(text));
         }
     })
     .catch(err => console.error(err));
 }
 
 onBtnClick = function(t, opts) {
-    console.log(t)
-    console.log(opts)
     const baseUrl = 'https://api.trello.com/1/cards/' + cardId;
     const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
 
@@ -125,11 +123,13 @@ onBtnClick = function(t, opts) {
     const listUrl = baseUrl + '/list';
     const memberUrl = baseUrl + '/members';
 
-    fetchData(baseUrl + authDetails, 'card')
-    fetchData(boardUrl + authDetails, 'board')
-    fetchData(listUrl + authDetails, 'list')
-    fetchData(memberUrl + authDetails, 'members')
-    fetchData(checkListUrl + authDetails, 'checklist')
+    fetchData(baseUrl + authDetails, 'card');
+    fetchData(boardUrl + authDetails, 'board');
+    fetchData(listUrl + authDetails, 'list');
+    fetchData(memberUrl + authDetails, 'members');
+    fetchData(checkListUrl + authDetails, 'checklist');
+
+    console.log(markdownOutput);
 }
 
 window.TrelloPowerUp.initialize({
