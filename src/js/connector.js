@@ -1,5 +1,6 @@
 require('dotenv').config({path: '../../.env'});
 const fetch = require('node-fetch');
+let fs = require('fs');
 
 const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 1px 4px; margin-right: 10px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
 const memberTemplate = '<b style="background-color: #9b9c9e; display: inline-block; border-radius: 50%; width: 40px; height: 40px; line-height: 40px; text-align: center;">ENTER_MEMBER_HERE</b>'
@@ -25,6 +26,24 @@ let markdownMemberDetails = '';
 let cardId = '';
 let dataObtained = 0;
 let boardPlaceholder = '';
+let cardName = '';
+
+function triggerConsoleLog() {
+    dataObtained += 1;
+
+    if (dataObtained === 5) {
+        markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
+        markdownOutput += markdownMemberDetails + markdownCheckListDetails;
+
+        console.log(markdownOutput);
+        const fileName = cardName.replace(/\s+/g, '') + '.md';
+
+        let blob = new Blob([markdownOutput], {type: "text/plain;charset=utf-8"});
+        FileSaver.saveAs(blob, fileName);
+
+        dataObtained = 0;
+    }
+}
 
 function addCheckListToOutput(checkLists) {
     let markdownCheckLists = '';
@@ -45,8 +64,8 @@ function addCheckListToOutput(checkLists) {
     }
     markdownCheckListDetails += markdownCheckLists;
 }
-
 function addCardDetailsToOutput(cardInfo) {
+    cardName = cardInfo.name;
     let markdownCard = '# ' + cardInfo.name + '\n';
 
     boardPlaceholder = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -71,7 +90,6 @@ function addCardDetailsToOutput(cardInfo) {
 
     markdownCardDetails += markdownCard;
 }
-
 function addMembersToOutput(memberInfo) {
     let markdownMembers = '';
     if (memberInfo.length > 0) {
@@ -83,24 +101,11 @@ function addMembersToOutput(memberInfo) {
 
     markdownMemberDetails += markdownMembers;
 }
-
 function addBoardToOutput(boardInfo) {
     markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
 }
-
 function addListToOutput(listInfo) {
     markdownListDetails += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
-}
-
-function triggerConsoleLog() {
-    dataObtained += 1;
-
-    if (dataObtained === 5) {
-        markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
-        markdownOutput += markdownMemberDetails + markdownCheckListDetails;
-        console.log(markdownOutput);
-        dataObtained = 0;
-    }
 }
 
 function fetchData(url, dataType) {
