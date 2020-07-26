@@ -53,8 +53,8 @@ function addCardDetailsToOutput(cardInfo) {
 
     // Add labels
     if (cardInfo.labels.length > 0) {
-        cardInfo.labels.forEach(         markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace((label) => {
-                /ENTER_LABEL_NAME_HERE/g, label.name) + ' ';
+        cardInfo.labels.forEach((label) => {
+            markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace(/ENTER_LABEL_NAME_HERE/g, label.name) + ' ';
         });
     }
 
