@@ -16,7 +16,9 @@ function fectchCheckLists(url) {
             `Response: ${response.status} ${response.statusText}`
         );
         return response.text();
-    }).catch(err => console.error(err));
+    })
+    .then(text => console.log(text))
+    .catch(err => console.error(err));
 }
 
 function onBtnClick(cardId) {
@@ -25,8 +27,7 @@ function onBtnClick(cardId) {
     const boardUrl = 'https://api.trello.com/1/cards/' + cardId;
     const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN']
 
-    let checkLists = fectchCheckLists(checkListUrl + authDetails)
-    console.log(checkLists)
+    fectchCheckLists(checkListUrl + authDetails)
 }
 
 window.TrelloPowerUp.initialize({
