@@ -80,8 +80,8 @@ function addListToOutput(listInfo) {
     markdownOutput += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
 }
 
-function fetchData(url, dataType) {
-    fetch(url, {
+async function fetchData(url, dataType) {
+    await fetch(url, {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
