@@ -1,11 +1,26 @@
 require('dotenv').config({path: '../../.env'});
 const fetch = require('node-fetch');
 
-function convertCardToMarkdown(data) {
+function convertCardToMarkdown(checkLists) {
+    let markdownCheckLists = '# CheckLists\n';
+    checkLists.forEach((checkList) => {
+        let markdownCheckList = '## CheckList: \'' + checkList.name + '\'\n';
+        checkList.checkItems.forEach((item) => {
+            if (item.state === 'incomplete') {
+                markdownCheckList += ' - [ ] ' + item.name + '\n';
+            }
+            else {
+                markdownCheckList += ' - [x] ' + item.name + '\n';
+            }
+        });
+        markdownCheckLists += markdownCheckList + '\n';
+    });
 
+    console.log(markdownCheckLists);
 }
 
-function fectchCheckLists(url) {
+function fetchCheckLists(url) {
+    let results = null;
     fetch(url, {
         method: 'GET',
         headers: {
@@ -17,8 +32,13 @@ function fectchCheckLists(url) {
         );
         return response.text();
     })
-    .then(text => console.log(text))
+    .then(text => {
+        console.log(text);
+        results = text;
+    })
     .catch(err => console.error(err));
+
+    return results;
 }
 
 function onBtnClick(cardId) {
@@ -27,7 +47,10 @@ function onBtnClick(cardId) {
     const boardUrl = 'https://api.trello.com/1/cards/' + cardId;
     const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN']
 
-    fectchCheckLists(checkListUrl + authDetails)
+    const checkLists = JSON.parse(fetchCheckLists(checkListUrl + authDetails));
+
+    let markdownCheckLists = convertCardToMarkdown(checkLists);
+    console.log(markdownCheckLists);
 }
 
 window.TrelloPowerUp.initialize({
