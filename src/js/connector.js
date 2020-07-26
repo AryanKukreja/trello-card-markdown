@@ -24,11 +24,12 @@ let markdownCheckListDetails = '';
 let markdownMemberDetails = '';
 let cardId = '';
 let dataObtained = 0;
+let boardPlaceholder = '';
 
 function addCheckListToOutput(checkLists) {
     let markdownCheckLists = '';
     if (checkLists.length > 0) {
-        markdownCheckLists = '## CheckLists\n';
+        markdownCheckLists = '\n## CheckLists\n';
         checkLists.forEach((checkList) => {
             let markdownCheckList = '**' + checkList.name + ':**\n';
             checkList.checkItems.forEach((item) => {
@@ -47,6 +48,9 @@ function addCheckListToOutput(checkLists) {
 
 function addCardDetailsToOutput(cardInfo) {
     let markdownCard = '# ' + cardInfo.name + '\n';
+
+    boardPlaceholder = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    markdownCard += boardPlaceholder + '\n';
 
     // Add card description
     markdownCard += '> ' + cardInfo.desc + '\n\n';
@@ -77,7 +81,7 @@ function addMembersToOutput(memberInfo) {
 }
 
 function addBoardToOutput(boardInfo) {
-    markdownBoardDetails += boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
+    markdownBoardDetails += '######' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
 }
 
 function addListToOutput(listInfo) {
@@ -88,7 +92,8 @@ function triggerConsoleLog() {
     dataObtained += 1;
 
     if (dataObtained === 5) {
-        markdownOutput = markdownCardDetails + markdownBoardDetails + markdownListDetails + markdownMemberDetails + markdownCheckListDetails;
+        markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails);
+        markdownOutput += markdownListDetails + markdownMemberDetails + markdownCheckListDetails;
         console.log(markdownOutput);
         dataObtained = 0;
     }
