@@ -39,7 +39,9 @@ function fectchCheckLists(url) {
     .catch(err => console.error(err));
 }
 
-onBtnClick = function(t, optns) {
+onBtnClick = function(t, opts) {
+    console.log(t)
+    console.log(opts)
     const baseUrl = 'https://api.trello.com/1/cards/' + cardId;
     const checkListUrl = 'https://api.trello.com/1/cards/' + cardId + '/checklists';
     const boardUrl = 'https://api.trello.com/1/cards/' + cardId;
