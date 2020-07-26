@@ -81,7 +81,7 @@ function addMembersToOutput(memberInfo) {
 }
 
 function addBoardToOutput(boardInfo) {
-    markdownBoardDetails += '######' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
+    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
 }
 
 function addListToOutput(listInfo) {
@@ -92,8 +92,8 @@ function triggerConsoleLog() {
     dataObtained += 1;
 
     if (dataObtained === 5) {
-        markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails);
-        markdownOutput += markdownListDetails + markdownMemberDetails + markdownCheckListDetails;
+        markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
+        markdownOutput += markdownMemberDetails + markdownCheckListDetails;
         console.log(markdownOutput);
         dataObtained = 0;
     }
