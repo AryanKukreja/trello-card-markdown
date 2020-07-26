@@ -30,7 +30,7 @@ function addCheckListToOutput(checkLists) {
     if (checkLists.length > 0) {
         markdownCheckLists = '## CheckLists\n';
         checkLists.forEach((checkList) => {
-            let markdownCheckList = '### ' + checkList.name + ':\n';
+            let markdownCheckList = '**' + checkList.name + ':**\n';
             checkList.checkItems.forEach((item) => {
                 if (item.state === 'incomplete') {
                     markdownCheckList += ' - [ ] ' + item.name + '\n';
@@ -53,8 +53,8 @@ function addCardDetailsToOutput(cardInfo) {
 
     // Add labels
     if (cardInfo.labels.length > 0) {
-        cardInfo.labels.forEach((label) => {
-            markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace(/ENTER_LABEL_NAME_HERE/g, label.fullName) + ' ';
+        cardInfo.labels.forEach(         markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace((label) => {
+                /ENTER_LABEL_NAME_HERE/g, label.name) + ' ';
         });
     }
 
@@ -69,7 +69,7 @@ function addMembersToOutput(memberInfo) {
     if (memberInfo.length > 0) {
         markdownMembers += '## Members of Card: \n'
         memberInfo.forEach((member) => {
-            markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + ' ' + member.name + '\n';
+            markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + ' ' + member.fullName + '\n';
         })
     }
 
