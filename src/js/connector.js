@@ -18,6 +18,7 @@ const colors = {
 
 let markdownOutput = '';
 let cardId = '';
+let dataObtained = 0;
 
 function addCheckListToOutput(checkLists) {
     let markdownCheckLists = '';
@@ -80,8 +81,17 @@ function addListToOutput(listInfo) {
     markdownOutput += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
 }
 
-async function fetchData(url, dataType) {
-    await fetch(url, {
+function triggerConsoleLog() {
+    dataObtained += 1;
+
+    if (dataObtained === 5) {
+        console.log(markdownOutput);
+        dataObtained = 1;
+    }
+}
+
+function fetchData(url, dataType) {
+    fetch(url, {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -97,7 +107,6 @@ async function fetchData(url, dataType) {
 
         if (dataType === 'checklist') {
             addCheckListToOutput(JSON.parse(text));
-            console.log(markdownOutput);
         }
         else if (dataType === 'board') {
             addBoardToOutput(JSON.parse(text));
@@ -112,6 +121,7 @@ async function fetchData(url, dataType) {
             addMembersToOutput(JSON.parse(text));
         }
     })
+    .then(() => triggerConsoleLog())
     .catch(err => console.error(err));
 }
 
