@@ -177,7 +177,7 @@ window.TrelloPowerUp.initialize({
                     callback: function(t) {
                         return t.popup({
                             title: "Select Fields",
-                            url: "../html/index.html"
+                            url: "index.html"
                         })
                     },
                     condition: 'always'
