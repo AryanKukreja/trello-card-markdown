@@ -1,29 +1,64 @@
-var GRAY_ICON = 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg';
+require('dotenv').config({path: '../../.env'});
+const fetch = require('node-fetch');
+let markdownOutput = '';
 
-var onBtnClick = function (t, opts) {
-    console.log(t)
-    console.log(opts)
-    console.log('Someone clicked the button');
-};
+function convertCardToMarkdown(checkLists) {
+    let markdownCheckLists = '# CheckLists\n';
+    checkLists.forEach((checkList) => {
+        let markdownCheckList = '## CheckList: \'' + checkList.name + '\'\n';
+        checkList.checkItems.forEach((item) => {
+            if (item.state === 'incomplete') {
+                markdownCheckList += ' - [ ] ' + item.name + '\n';
+            }
+            else {
+                markdownCheckList += ' - [x] ' + item.name + '\n';
+            }
+        });
+        markdownCheckLists += markdownCheckList + '\n';
+    });
+
+    return markdownCheckLists;
+}
+
+function fectchCheckLists(url) {
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        console.log(
+            `Response: ${response.status} ${response.statusText}`
+        );
+        return response.text();
+    })
+    .then((text) => {
+        console.log(JSON.parse(text));
+        console.log(convertCardToMarkdown(JSON.parse(text)))
+    })
+    .catch(err => console.error(err));
+}
+
+function onBtnClick(cardId) {
+    const baseUrl = 'https://api.trello.com/1/cards/' + cardId;
+    const checkListUrl = 'https://api.trello.com/1/cards/' + cardId + '/checklists';
+    const boardUrl = 'https://api.trello.com/1/cards/' + cardId;
+    const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN']
+
+    fectchCheckLists(checkListUrl + authDetails)
+}
 
 window.TrelloPowerUp.initialize({
     'card-buttons': function (t, opts) {
-        console.log(t);
-        console.log(opts);
-        return [{
-            // usually you will provide a callback function to be run on button click
-            // we recommend that you use a popup on click generally
-            icon: GRAY_ICON, // don't use a colored icon here
-            text: 'Open Popup',
-            callback: onBtnClick,
-            condition: 'edit'
-        }, {
-            // but of course, you could also just kick off to a url if that's your thing
-            icon: GRAY_ICON,
-            text: 'Just a URL',
-            condition: 'always',
-            url: 'https://developer.atlassian.com/cloud/trello',
-            target: 'Trello Developer Site' // optional target for above url
-        }];
+        return t.card('all')
+            .then(function (card) {
+                console.log(card);
+                return [{
+                    icon: 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg', // don't use a colored icon here
+                    text: 'Export to Markdown',
+                    callback: onBtnClick(card.id),
+                    condition: 'always'
+                }];
+            });
     }
 });
