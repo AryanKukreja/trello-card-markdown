@@ -1,7 +1,7 @@
 require('dotenv').config({path: '../../.env'});
 const fetch = require('node-fetch');
 
-const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 4px; margin-right: 10px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
+const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 1px 4px; margin-right: 10px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
 const memberTemplate = '<b style="background-color: #9b9c9e; display: inline-block; border-radius: 50%; width: 40px; height: 40px; line-height: 40px; text-align: center;">ENTER_MEMBER_HERE</b>'
 const colors = {
     "green": "#61BD4F",
@@ -30,7 +30,7 @@ function addCheckListToOutput(checkLists) {
     if (checkLists.length > 0) {
         markdownCheckLists = '## CheckLists\n';
         checkLists.forEach((checkList) => {
-            let markdownCheckList = '### CheckList: \'' + checkList.name + '\'\n';
+            let markdownCheckList = '### ' + checkList.name + ':\n';
             checkList.checkItems.forEach((item) => {
                 if (item.state === 'incomplete') {
                     markdownCheckList += ' - [ ] ' + item.name + '\n';
@@ -48,21 +48,20 @@ function addCheckListToOutput(checkLists) {
 function addCardDetailsToOutput(cardInfo) {
     let markdownCard = '# ' + cardInfo.name + '\n';
 
-    // Add due date
-    markdownCard += 'Due on: ' +  cardInfo.due.split('T')[0] + '\n\n';
-
     // Add card description
-    markdownCard += '## Description\n' + cardInfo.desc + '\n\n';
+    markdownCard += '> ' + cardInfo.desc + '\n\n';
 
     // Add labels
     if (cardInfo.labels.length > 0) {
-        markdownCard += 'Labels: \n';
         cardInfo.labels.forEach((label) => {
-            markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace(/ENTER_LABEL_NAME_HERE/g, label.name) + ' ';
+            markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace(/ENTER_LABEL_NAME_HERE/g, label.fullName) + ' ';
         });
     }
 
-    markdownCardDetails += markdownCard + '\n\n';
+    // Add due date
+    markdownCard += '\n\n**Due on: ' +  cardInfo.due.split('T')[0] + '**\n\n';
+
+    markdownCardDetails += markdownCard;
 }
 
 function addMembersToOutput(memberInfo) {
