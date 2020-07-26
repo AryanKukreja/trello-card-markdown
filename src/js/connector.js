@@ -1,7 +1,7 @@
 require('dotenv').config({path: '../../.env'});
 const fetch = require('node-fetch');
 
-const labelTemplate = '<p style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 4px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></p>'
+const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 4px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
 const memberTemplate = '<b style="background-color: #9b9c9e; display: inline-block; border-radius: 50%; width: 40px; height: 40px; line-height: 40px; text-align: center;">ENTER_MEMBER_HERE</b>'
 const colors = {
     "green": "#61BD4F",
@@ -17,6 +17,11 @@ const colors = {
 }
 
 let markdownOutput = '';
+let markdownCardDetails = '';
+let markdownListDetails = '';
+let markdownBoardDetails = '';
+let markdownCheckListDetails = '';
+let markdownMemberDetails = '';
 let cardId = '';
 let dataObtained = 0;
 
@@ -37,8 +42,7 @@ function addCheckListToOutput(checkLists) {
             markdownCheckLists += markdownCheckList + '\n';
         });
     }
-
-    return markdownCheckLists;
+    markdownCheckListDetails += markdownCheckLists;
 }
 
 function addCardDetailsToOutput(cardInfo) {
@@ -48,7 +52,7 @@ function addCardDetailsToOutput(cardInfo) {
     markdownCard += 'Due on: ' +  cardInfo.due.split('T')[0] + '\n\n';
 
     // Add card description
-    markdownCard += cardInfo.desc + '\n\n';
+    markdownCard += '## Description\n' + cardInfo.desc + '\n\n';
 
     // Add labels
     if (cardInfo.labels.length > 0) {
@@ -58,35 +62,36 @@ function addCardDetailsToOutput(cardInfo) {
         });
     }
 
-    markdownOutput += markdownCard + '\n\n';
-
-    return markdownCard;
+    markdownCardDetails += markdownCard + '\n\n';
 }
 
 function addMembersToOutput(memberInfo) {
-    let markdownMember = '';
+    let markdownMembers = '';
     if (memberInfo.length > 0) {
-        markdownMember += '## Members of Card: '
+        markdownMembers += '## Members of Card: '
         memberInfo.forEach((member) => {
-            markdownMember += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + ' ' + member.name + '\n';
+            markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + ' ' + member.name + '\n';
         })
     }
+
+    markdownMemberDetails += markdownMembers;
 }
 
 function addBoardToOutput(boardInfo) {
-    markdownOutput += boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board');
+    markdownBoardDetails += boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board');
 }
 
 function addListToOutput(listInfo) {
-    markdownOutput += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
+    markdownListDetails += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
 }
 
 function triggerConsoleLog() {
     dataObtained += 1;
 
     if (dataObtained === 5) {
+        markdownOutput = markdownCardDetails + markdownBoardDetails + markdownListDetails + markdownMemberDetails + markdownCheckListDetails;
         console.log(markdownOutput);
-        dataObtained = 1;
+        dataObtained = 0;
     }
 }
 
@@ -126,6 +131,12 @@ function fetchData(url, dataType) {
 }
 
 onBtnClick = function(t, opts) {
+    markdownCheckListDetails = '';
+    markdownMemberDetails = '';
+    markdownListDetails = '';
+    markdownCardDetails = '';
+    markdownBoardDetails = '';
+
     const baseUrl = 'https://api.trello.com/1/cards/' + cardId;
     const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
 
