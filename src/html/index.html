@@ -7,5 +7,19 @@
   <body>
     <script src="https://p.trellocdn.com/power-up.min.js" crossorigin="anonymous"></script>
     <script src="../js/connector.js"></script>
+
+    <form id="fields">
+      <label>Select Fields to Export:</label>
+      <input type="checkbox" name="showBoardAndList" id="showBoardAndList" value="showBoardAndList">
+      <label for="showBoardAndList">Board and List of Card</label>
+      <br>
+      <input type="checkbox" name="showCheckLists" value="showCheckLists" id="showCheckLists">
+      <label for="showCheckLists">Checklist(s)</label>
+      <br>
+      <input type="checkbox" name="showMembers" value="showMembers" id="showMembers">
+      <label for="showMembers">Members</label>
+      <br><br>
+      <button type="submit" class="mod-primary" onclick="onBtnClick()">Save</button>
+    </form>
   </body>
 </html>
