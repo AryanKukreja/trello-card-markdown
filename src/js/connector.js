@@ -17,7 +17,7 @@ function convertCardToMarkdown(checkLists) {
         markdownCheckLists += markdownCheckList + '\n';
     });
 
-    console.log(markdownCheckLists);
+    return markdownCheckLists;
 }
 
 function fetchCheckLists(url) {
@@ -27,10 +27,9 @@ function fetchCheckLists(url) {
             'Accept': 'application/json'
         }
     }).then(response => {
-        console.log(
-            `Response: ${response.status} ${response.statusText}`
-        );
-        markdownOutput += JSON.parse(response.text());
+        console.log(`Response: ${response.status} ${response.statusText}`);
+        console.log(JSON.parse(response.text()));
+        markdownOutput += convertCardToMarkdown(JSON.parse(response.text()));
         console.log(markdownOutput)
     })
     .catch(err => console.error(err));
