@@ -97,6 +97,7 @@ function fetchData(url, dataType) {
 
         if (dataType === 'checklist') {
             addCheckListToOutput(JSON.parse(text));
+            console.log(markdownOutput);
         }
         else if (dataType === 'board') {
             addBoardToOutput(JSON.parse(text));
@@ -123,17 +124,11 @@ onBtnClick = function(t, opts) {
     const listUrl = baseUrl + '/list';
     const memberUrl = baseUrl + '/members';
 
-    fetchData(baseUrl + authDetails, 'card')
-        .then(fetchData(boardUrl + authDetails, 'board')
-            .then(fetchData(listUrl + authDetails, 'list')
-                .then(fetchData(memberUrl + authDetails, 'members')
-                    .then(fetchData(checkListUrl + authDetails, 'checklist')
-                        .then(console.log(markdownOutput)
-                        )
-                    )
-                )
-            )
-        );
+    fetchData(baseUrl + authDetails, 'card');
+    fetchData(boardUrl + authDetails, 'board');
+    fetchData(listUrl + authDetails, 'list');
+    fetchData(memberUrl + authDetails, 'members');
+    fetchData(checkListUrl + authDetails, 'checklist');
 }
 
 window.TrelloPowerUp.initialize({
