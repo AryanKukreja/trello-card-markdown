@@ -105,10 +105,10 @@ function addMembersToOutput(memberInfo) {
     markdownMemberDetails += markdownMembers;
 }
 function addBoardToOutput(boardInfo) {
-    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + (document.getElementById('showList') === true ? ' | ' : '');
+    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + (document.getElementById('showList').checked === true ? ' | ' : '');
 }
 function addListToOutput(listInfo) {
-    markdownListDetails += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
+    markdownListDetails += (document.getElementById('showBoard').checked === true ? '' : '###### ') + listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
 }
 
 function fetchData(url, dataType) {
@@ -203,7 +203,8 @@ window.TrelloPowerUp.initialize({
                     callback: function(t) {
                         return t.popup({
                             title: "Select Fields",
-                            url: "index.html"
+                            url: "index.html",
+                            height: 300
                         })
                     },
                     condition: 'always'
