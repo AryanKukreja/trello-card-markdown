@@ -170,7 +170,7 @@ onBtnClick = function() {
             if (document.getElementById('showMembers') === true) {
                 numElements++;
             }
-            if (document.getElementById('showChecklist')) {
+            if (document.getElementById('showChecklist') === true) {
                 numElements++;
             }
             fetchData(baseUrl + authDetails, 'card');
@@ -183,9 +183,12 @@ onBtnClick = function() {
             if (document.getElementById('showMembers') === true) {
                 fetchData(memberUrl + authDetails, 'members');
             }
-            if (document.getElementById('showChecklist')) {
+            if (document.getElementById('showChecklist') === true) {
                 fetchData(checkListUrl + authDetails, 'checklist');
             }
+        })
+        .then(function() {
+            t.closePopup();
         });
 }
 
