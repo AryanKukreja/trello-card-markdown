@@ -23,12 +23,9 @@ let markdownListDetails = '';
 let markdownBoardDetails = '';
 let markdownCheckListDetails = '';
 let markdownMemberDetails = '';
-let cardId = '';
 let dataObtained = 0;
 let boardPlaceholder = '';
 let cardName = '';
-
-let t_arg = null;
 
 function triggerConsoleLog() {
     dataObtained += 1;
@@ -145,51 +142,37 @@ function fetchData(url, dataType) {
     .catch(err => console.error(err));
 }
 
-onBtnClick = function(t=null, opts=null, cardId) {
+onBtnClick = function() {
     markdownCheckListDetails = '';
     markdownMemberDetails = '';
     markdownListDetails = '';
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
-    console.log(cardId + ' --- ' + typeof(cardId));
-    let card_id = cardId;
-    if (cardId === null) {
-        console.log("cardId failed us");
-        if (t_arg === null) {
-            console.log("t_arg failed us");
-            card_id = "5f1c87176a84587a351e38a1";
-        }
-        else {
-            return t_arg.card('all')
-                .then(function(card) {
-                    card_id = card.id;
-                })
-        }
-    }
+    let t = window.TrelloPowerUp.iframe();
+    return t.card('all')
+        .then(function(card) {
+            const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
+            const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
 
-    const baseUrl = 'https://api.trello.com/1/cards/' + card_id;
-    const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
+            const checkListUrl = baseUrl + '/checklists';
+            const boardUrl = baseUrl + '/board';
+            const listUrl = baseUrl + '/list';
+            const memberUrl = baseUrl + '/members';
 
-    const checkListUrl = baseUrl + '/checklists';
-    const boardUrl = baseUrl + '/board';
-    const listUrl = baseUrl + '/list';
-    const memberUrl = baseUrl + '/members';
-
-    fetchData(baseUrl + authDetails, 'card');
-    fetchData(boardUrl + authDetails, 'board');
-    fetchData(listUrl + authDetails, 'list');
-    fetchData(memberUrl + authDetails, 'members');
-    fetchData(checkListUrl + authDetails, 'checklist');
+            fetchData(baseUrl + authDetails, 'card');
+            fetchData(boardUrl + authDetails, 'board');
+            fetchData(listUrl + authDetails, 'list');
+            fetchData(memberUrl + authDetails, 'members');
+            fetchData(checkListUrl + authDetails, 'checklist');
+        })
 }
 
 window.TrelloPowerUp.initialize({
     'card-buttons': function (t, opts=null) {
         return t.card('all')
             .then(function (card) {
-                console.log(card);
-                cardId = card.id;
-                t_arg = t;
+                console.log(card)
                 return [{
                     icon: 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg', // don't use a colored icon here
                     text: 'Export to Markdown',
@@ -207,5 +190,5 @@ window.TrelloPowerUp.initialize({
 
 window.fields.addEventListener('submit', function(event){
     event.preventDefault();
-    onBtnClick(null, null, cardId);
+    onBtnClick();
 });
