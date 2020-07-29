@@ -150,6 +150,7 @@ onBtnClick = function() {
     markdownBoardDetails = '';
 
     let t = window.TrelloPowerUp.iframe();
+    t.closePopup();
     return t.card('all')
         .then(function(card) {
             const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
@@ -165,7 +166,7 @@ onBtnClick = function() {
             fetchData(listUrl + authDetails, 'list');
             fetchData(memberUrl + authDetails, 'members');
             fetchData(checkListUrl + authDetails, 'checklist');
-        })
+        });
 }
 
 window.TrelloPowerUp.initialize({
