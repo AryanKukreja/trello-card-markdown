@@ -1,3 +1,5 @@
+let Promise = TrelloPowerUp.Promise;
+
 window.TrelloPowerUp.initialize({
     'card-buttons': function (t, opts) {
         return t.card('all')
