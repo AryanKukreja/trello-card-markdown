@@ -150,22 +150,24 @@ onBtnClick = function() {
     markdownBoardDetails = '';
 
     let t = window.TrelloPowerUp.iframe();
-    t.closePopup();
-    return t.card('all')
-        .then(function(card) {
-            const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
-            const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
+    t.closePopup()
+        .then(function() {
+            return t.card('all')
+                .then(function(card) {
+                    const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
+                    const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
 
-            const checkListUrl = baseUrl + '/checklists';
-            const boardUrl = baseUrl + '/board';
-            const listUrl = baseUrl + '/list';
-            const memberUrl = baseUrl + '/members';
+                    const checkListUrl = baseUrl + '/checklists';
+                    const boardUrl = baseUrl + '/board';
+                    const listUrl = baseUrl + '/list';
+                    const memberUrl = baseUrl + '/members';
 
-            fetchData(baseUrl + authDetails, 'card');
-            fetchData(boardUrl + authDetails, 'board');
-            fetchData(listUrl + authDetails, 'list');
-            fetchData(memberUrl + authDetails, 'members');
-            fetchData(checkListUrl + authDetails, 'checklist');
+                    fetchData(baseUrl + authDetails, 'card');
+                    fetchData(boardUrl + authDetails, 'board');
+                    fetchData(listUrl + authDetails, 'list');
+                    fetchData(memberUrl + authDetails, 'members');
+                    fetchData(checkListUrl + authDetails, 'checklist');
+                });
         });
 }
 
