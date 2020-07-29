@@ -26,11 +26,12 @@ let markdownMemberDetails = '';
 let dataObtained = 0;
 let boardPlaceholder = '';
 let cardName = '';
+let numElements = 1;
 
 function triggerConsoleLog() {
     dataObtained += 1;
 
-    if (dataObtained === 5) {
+    if (dataObtained === numElements) {
         markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
         markdownOutput += markdownMemberDetails + markdownCheckListDetails;
 
@@ -101,7 +102,7 @@ function addMembersToOutput(memberInfo) {
     markdownMemberDetails += markdownMembers;
 }
 function addBoardToOutput(boardInfo) {
-    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
+    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + (document.getElementById('showList') === true ? ' | ' : '');
 }
 function addListToOutput(listInfo) {
     markdownListDetails += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
@@ -160,11 +161,31 @@ onBtnClick = function() {
             const listUrl = baseUrl + '/list';
             const memberUrl = baseUrl + '/members';
 
+            if (document.getElementById('showBoard').checked === true) {
+                numElements++;
+            }
+            if (document.getElementById('showList') === true) {
+                numElements++;
+            }
+            if (document.getElementById('showMembers') === true) {
+                numElements++;
+            }
+            if (document.getElementById('showChecklist')) {
+                numElements++;
+            }
             fetchData(baseUrl + authDetails, 'card');
-            fetchData(boardUrl + authDetails, 'board');
-            fetchData(listUrl + authDetails, 'list');
-            fetchData(memberUrl + authDetails, 'members');
-            fetchData(checkListUrl + authDetails, 'checklist');
+            if (document.getElementById('showBoard').checked === true) {
+                fetchData(boardUrl + authDetails, 'board');
+            }
+            if (document.getElementById('showList') === true) {
+                fetchData(listUrl + authDetails, 'list');
+            }
+            if (document.getElementById('showMembers') === true) {
+                fetchData(memberUrl + authDetails, 'members');
+            }
+            if (document.getElementById('showChecklist')) {
+                fetchData(checkListUrl + authDetails, 'checklist');
+            }
         });
 }
 
