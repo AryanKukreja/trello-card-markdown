@@ -166,7 +166,7 @@ onBtnClick = function() {
             fetchData(memberUrl + authDetails, 'members');
             fetchData(checkListUrl + authDetails, 'checklist');
 
-            t.closePopup();
+            window.TrelloPowerUp.iframe().closePopup();
         })
 }
 
