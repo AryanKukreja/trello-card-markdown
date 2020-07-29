@@ -43,6 +43,9 @@ function triggerConsoleLog() {
 
         dataObtained = 0;
     }
+
+    let tr = window.TrelloPowerUp.iframe()
+    tr.closePopup();
 }
 
 function addCheckListToOutput(checkLists) {
@@ -186,9 +189,6 @@ onBtnClick = function() {
             if (document.getElementById('showChecklist') === true) {
                 fetchData(checkListUrl + authDetails, 'checklist');
             }
-        })
-        .then(function() {
-            t.closePopup();
         });
 }
 
