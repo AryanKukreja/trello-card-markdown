@@ -186,12 +186,7 @@ window.TrelloPowerUp.initialize({
     }
 });
 
-let trelloIFrame = TrelloPowerUp.iframe();
 window.fields.addEventListener('submit', function(event){
     event.preventDefault();
-    return trelloIFrame.set('card', 'shared', 'results', -1)
-        .then(function(){
-            trelloIFrame.closePopup();
-            onBtnClick();
-        });
+    onBtnClick();
 });
