@@ -167,26 +167,26 @@ onBtnClick = function() {
             if (document.getElementById('showBoard').checked === true) {
                 numElements++;
             }
-            if (document.getElementById('showList') === true) {
+            if (document.getElementById('showList').checked === true) {
                 numElements++;
             }
-            if (document.getElementById('showMembers') === true) {
+            if (document.getElementById('showMembers').checked === true) {
                 numElements++;
             }
-            if (document.getElementById('showChecklist') === true) {
+            if (document.getElementById('showChecklist').checked === true) {
                 numElements++;
             }
             fetchData(baseUrl + authDetails, 'card');
             if (document.getElementById('showBoard').checked === true) {
                 fetchData(boardUrl + authDetails, 'board');
             }
-            if (document.getElementById('showList') === true) {
+            if (document.getElementById('showList').checked === true) {
                 fetchData(listUrl + authDetails, 'list');
             }
-            if (document.getElementById('showMembers') === true) {
+            if (document.getElementById('showMembers').checked === true) {
                 fetchData(memberUrl + authDetails, 'members');
             }
-            if (document.getElementById('showChecklist') === true) {
+            if (document.getElementById('showChecklist').checked === true) {
                 fetchData(checkListUrl + authDetails, 'checklist');
             }
         });
