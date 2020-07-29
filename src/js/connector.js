@@ -2,6 +2,8 @@ require('dotenv').config({path: '../../.env'});
 const fetch = require('node-fetch');
 let FileSaver = require('file-saver');
 
+let main = window.TrelloPowerUp;
+
 const labelTemplate = '<span style="border-style: solid; border-color: ENTER_COLOR_HERE; border-radius: 10px; padding: 1px 4px; margin-right: 10px; background: ENTER_COLOR_HERE; color: white"><b>ENTER_LABEL_NAME_HERE</b></span>'
 const memberTemplate = '<b style="background-color: #9b9c9e; display: inline-block; border-radius: 50%; width: 40px; height: 40px; line-height: 40px; text-align: center;">ENTER_MEMBER_HERE</b>'
 const colors = {
@@ -45,7 +47,7 @@ function triggerConsoleLog() {
     }
 
     let tr = window.TrelloPowerUp.iframe()
-    tr.closePopup();
+    main.closePopup();
 }
 
 function addCheckListToOutput(checkLists) {
@@ -153,8 +155,8 @@ onBtnClick = function() {
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
-    let t = window.TrelloPowerUp.iframe();
-    return t.card('all')
+    // let t = window.TrelloPowerUp.iframe();
+    return main.card('all')
         .then(function(card) {
             const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
             const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
@@ -192,7 +194,7 @@ onBtnClick = function() {
         });
 }
 
-window.TrelloPowerUp.initialize({
+main.initialize({
     'card-buttons': function (t, opts=null) {
         return t.card('all')
             .then(function (card) {
