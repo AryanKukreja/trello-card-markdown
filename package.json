@@ -2,9 +2,9 @@
   "name": "trello-card-markdown",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/connector.js",
   "scripts": {
-    "build": "parcel build src/html/*.html",
+    "build": "parcel build views/*.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
