@@ -47,7 +47,7 @@ function triggerConsoleLog() {
     }
 
     let tr = window.TrelloPowerUp.iframe()
-    main.closePopup();
+    main.iframe().closePopup();
 }
 
 function addCheckListToOutput(checkLists) {
@@ -156,7 +156,7 @@ onBtnClick = function() {
     markdownBoardDetails = '';
 
     // let t = window.TrelloPowerUp.iframe();
-    return main.card('all')
+    return main.iframe().card('all')
         .then(function(card) {
             const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
             const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
@@ -206,7 +206,7 @@ main.initialize({
                         return t.popup({
                             title: "Select Fields",
                             url: "index.html",
-                            height: 300
+                            height: 240
                         })
                     },
                     condition: 'always'
