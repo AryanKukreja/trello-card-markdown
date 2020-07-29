@@ -167,7 +167,7 @@ onBtnClick = function(t, opts) {
     fetchData(checkListUrl + authDetails, 'checklist');
 }
 
-window.estimate.addEventListener('submit', function(event){
+window.fields.addEventListener('submit', function(event){
     event.preventDefault();
     return trelloIFrame.set('card', 'shared', 'results', -1)
         .then(function(){
