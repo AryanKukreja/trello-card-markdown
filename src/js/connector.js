@@ -165,6 +165,8 @@ onBtnClick = function() {
             fetchData(listUrl + authDetails, 'list');
             fetchData(memberUrl + authDetails, 'members');
             fetchData(checkListUrl + authDetails, 'checklist');
+
+            t.closePopup();
         })
 }
 

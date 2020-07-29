@@ -13,12 +13,27 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
-      <form id="fields">
-        <label for="showBoardAndList"><input type="checkbox" name="showBoardAndList" id="showBoardAndList" value="showBoardAndList">Board and List of Card</label>
-        <label for="showCheckLists"><input type="checkbox" name="showCheckLists" value="showCheckLists" id="showCheckLists">Checklist(s)</label>
-        <label for="showMembers"><input type="checkbox" name="showMembers" value="showMembers" id="showMembers">Members</label>
-        <button type="submit" class="btn btn-success">Save</button>
-      </form>
+    <p>Which of the following should be included in the Markdown output?</p>
+    <form>
+      <div class="form-check" style="margin-top: 4px">
+        <input type="checkbox" class="form-check-input" id="showBoard">
+        <label class="form-check-label" for="showBoard">Name of Board</label>
+      </div>
+      <div class="form-check" style="margin-top: 4px">
+        <input type="checkbox" class="form-check-input" id="showList">
+        <label class="form-check-label" for="showList">Name of List</label>
+      </div>
+      <div class="form-check" style="margin-top: 4px">
+        <input type="checkbox" class="form-check-input" id="showChecklist">
+        <label class="form-check-label" for="showChecklist">Checklist(s)</label>
+      </div>
+      <div class="form-check" style="margin-top: 4px">
+        <input type="checkbox" class="form-check-input" id="showMembers">
+        <label class="form-check-label" for="showMembers">Members of Card</label>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
     <script src="../js/connector.js"></script>
   </body>
 </html>
