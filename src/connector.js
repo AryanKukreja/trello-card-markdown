@@ -11,7 +11,7 @@ window.TrelloPowerUp.initialize({
                     callback: function(t) {
                         return t.popup({
                             title: "Select Fields",
-                            url: "options.html",
+                            url: "../src/options.html",
                             height: 200
                         })
                     },
