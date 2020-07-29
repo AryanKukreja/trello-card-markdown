@@ -152,6 +152,7 @@ onBtnClick = function(t=null, opts=null, cardId) {
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
+    console.log(cardId + ' --- ' + typeof(cardId));
     let card_id = cardId;
     if (cardId === null) {
         console.log("cardId failed us");
