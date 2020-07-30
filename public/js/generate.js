@@ -45,8 +45,6 @@ function triggerConsoleLog() {
 
         dataObtained = 0;
     }
-
-    t.closePopup();
 }
 
 function addCheckListToOutput(checkLists) {
@@ -144,6 +142,7 @@ function fetchData(url, dataType) {
             }
         })
         .then(() => triggerConsoleLog())
+        .then(t.closePopup())
         .catch(err => console.error(err));
 }
 
