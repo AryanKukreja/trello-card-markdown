@@ -44,7 +44,7 @@ function triggerConsoleLog() {
         FileSaver.saveAs(blob, fileName).onwriteend = function() {
             setTimeout(function() {
                 t.closePopup();
-            });
+            }, 500);
         };
 
         dataObtained = 0;
