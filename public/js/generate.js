@@ -142,7 +142,7 @@ function fetchData(url, dataType) {
             }
         })
         .then(() => triggerConsoleLog())
-        .then(t.closePopup())
+        .then(() => t.closePopup())
         .catch(err => console.error(err));
 }
 
