@@ -31,6 +31,7 @@ let cardName = '';
 let numElements = 1;
 
 function triggerConsoleLog() {
+    console.log("We in the printing room");
     dataObtained += 1;
 
     if (dataObtained === numElements) {
@@ -123,8 +124,6 @@ function fetchData(url, dataType) {
         return response.text();
     })
         .then((text) => {
-            console.log(JSON.parse(text));
-
             if (dataType === 'checklist') {
                 addCheckListToOutput(JSON.parse(text));
             }
@@ -141,7 +140,9 @@ function fetchData(url, dataType) {
                 addMembersToOutput(JSON.parse(text));
             }
         })
-        .then(() => triggerConsoleLog())
+        .then(() => {
+            triggerConsoleLog();
+        })
         .catch(err => console.error(err));
 }
 
