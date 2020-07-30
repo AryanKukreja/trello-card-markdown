@@ -45,6 +45,8 @@ function triggerConsoleLog() {
 
         dataObtained = 0;
     }
+
+    t.closePopup();
 }
 
 function addCheckListToOutput(checkLists) {
