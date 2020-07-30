@@ -4,7 +4,7 @@
   "description": "",
   "main": "/src/connector.js",
   "scripts": {
-    "build": "parcel build views/*.html",
+    "build": "parcel build views/*.html && parcel build src/*.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
