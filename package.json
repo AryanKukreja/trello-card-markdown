@@ -1,19 +1,26 @@
 {
   "name": "trello-card-markdown",
   "version": "1.0.0",
-  "description": "",
-  "main": "/src/connector.js",
+  "description": "A Power-Up that lets users export a Trello Card as a Markdown document",
+  "main": "server.js",
   "scripts": {
-    "build": "parcel build views/*.html && parcel build src/*.html",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "Trello",
+    "Power-Up",
+    "Node",
+    "Express",
+    "Netlify"
+  ],
+  "author": "Aryan Kukreja",
+  "license": "BSD",
   "dependencies": {
     "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
     "node-fetch": "^2.6.0",
-    "parcel-bundler": "^1.12.4"
+    "express": "^4.15.2",
+    "cors": "^2.8.1"
   }
 }

@@ -1,0 +1,17 @@
+{
+    "name": "Trello Card-To-Markdown",
+    "details":"A Power-Up that lets users export a Trello Card as a Markdown document",
+    "icon": {
+        "url": "https://card-to-markdown.netlify.app/"
+    },
+    "author": "Aryan Kukreja",
+    "capabilities": [
+        "callback",
+        "card-buttons"
+    ],
+    "connectors": {
+        "iframe": {
+            "url": "./index.html"
+        }
+    }
+}
