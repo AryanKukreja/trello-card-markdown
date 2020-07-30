@@ -41,11 +41,7 @@ function triggerConsoleLog() {
         const fileName = cardName.replace(/\s+/g, '') + '.md';
 
         let blob = new Blob([markdownOutput], {type: "text/plain;charset=utf-8"});
-        FileSaver.saveAs(blob, fileName).onwriteend = function() {
-            setTimeout(function() {
-                t.closePopup();
-            }, 500);
-        };
+        FileSaver.saveAs(blob, fileName);
 
         dataObtained = 0;
     }
