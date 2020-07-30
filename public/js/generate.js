@@ -41,7 +41,11 @@ function triggerConsoleLog() {
         const fileName = cardName.replace(/\s+/g, '') + '.md';
 
         let blob = new Blob([markdownOutput], {type: "text/plain;charset=utf-8"});
-        FileSaver.saveAs(blob, fileName);
+        FileSaver.saveAs(blob, fileName).onwriteend = function() {
+            setTimeout(function() {
+                t.closePopup();
+            });
+        };
 
         dataObtained = 0;
     }
@@ -142,7 +146,6 @@ function fetchData(url, dataType) {
             }
         })
         .then(() => triggerConsoleLog())
-        .then(() => t.closePopup())
         .catch(err => console.error(err));
 }
 
