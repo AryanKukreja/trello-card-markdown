@@ -17,21 +17,23 @@ const colors = {
     "black": "#344563",
 }
 
+let t = TrelloPowerUp.iframe();
+
 let markdownOutput = '';
 let markdownCardDetails = '';
 let markdownListDetails = '';
 let markdownBoardDetails = '';
 let markdownCheckListDetails = '';
 let markdownMemberDetails = '';
-let cardId = '';
 let dataObtained = 0;
 let boardPlaceholder = '';
 let cardName = '';
+let numElements = 1;
 
-function triggerConsoleLog() {
+function triggerFileSave() {
     dataObtained += 1;
 
-    if (dataObtained === 5) {
+    if (dataObtained === numElements) {
         markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
         markdownOutput += markdownMemberDetails + markdownCheckListDetails;
 
@@ -102,10 +104,10 @@ function addMembersToOutput(memberInfo) {
     markdownMemberDetails += markdownMembers;
 }
 function addBoardToOutput(boardInfo) {
-    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + ' | ';
+    markdownBoardDetails += '###### ' + boardInfo.name + (boardInfo.name.toLowerCase().includes('board') ? '' : ' Board') + (document.getElementById('showList').checked === true ? ' | ' : '');
 }
 function addListToOutput(listInfo) {
-    markdownListDetails += listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
+    markdownListDetails += (document.getElementById('showBoard').checked === true ? '' : '###### ') + listInfo.name + (listInfo.name.toLowerCase().includes('list') ? '' : ' List') + '\n\n';
 }
 
 function fetchData(url, dataType) {
@@ -120,63 +122,76 @@ function fetchData(url, dataType) {
         );
         return response.text();
     })
-    .then((text) => {
-        console.log(JSON.parse(text));
-
-        if (dataType === 'checklist') {
-            addCheckListToOutput(JSON.parse(text));
-        }
-        else if (dataType === 'board') {
-            addBoardToOutput(JSON.parse(text));
-        }
-        else if (dataType === 'list') {
-            addListToOutput(JSON.parse(text));
-        }
-        else if (dataType === 'card') {
-            addCardDetailsToOutput(JSON.parse(text));
-        }
-        else if (dataType === 'members') {
-            addMembersToOutput(JSON.parse(text));
-        }
-    })
-    .then(() => triggerConsoleLog())
-    .catch(err => console.error(err));
+        .then((text) => {
+            if (dataType === 'checklist') {
+                addCheckListToOutput(JSON.parse(text));
+            }
+            else if (dataType === 'board') {
+                addBoardToOutput(JSON.parse(text));
+            }
+            else if (dataType === 'list') {
+                addListToOutput(JSON.parse(text));
+            }
+            else if (dataType === 'card') {
+                addCardDetailsToOutput(JSON.parse(text));
+            }
+            else if (dataType === 'members') {
+                addMembersToOutput(JSON.parse(text));
+            }
+        })
+        .then(() => {
+            triggerFileSave();
+        })
+        .catch(err => console.error(err));
 }
 
-onBtnClick = function(t, opts) {
+onBtnClick = function() {
     markdownCheckListDetails = '';
     markdownMemberDetails = '';
     markdownListDetails = '';
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
-    const baseUrl = 'https://api.trello.com/1/cards/' + cardId;
-    const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
+    return t.card('all')
+        .then(function(card) {
+            const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
+            const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
 
-    const checkListUrl = baseUrl + '/checklists';
-    const boardUrl = baseUrl + '/board';
-    const listUrl = baseUrl + '/list';
-    const memberUrl = baseUrl + '/members';
+            const checkListUrl = baseUrl + '/checklists';
+            const boardUrl = baseUrl + '/board';
+            const listUrl = baseUrl + '/list';
+            const memberUrl = baseUrl + '/members';
 
-    fetchData(baseUrl + authDetails, 'card');
-    fetchData(boardUrl + authDetails, 'board');
-    fetchData(listUrl + authDetails, 'list');
-    fetchData(memberUrl + authDetails, 'members');
-    fetchData(checkListUrl + authDetails, 'checklist');
+            numElements = 1
+            if (document.getElementById('showBoard').checked === true) {
+                numElements++;
+            }
+            if (document.getElementById('showList').checked === true) {
+                numElements++;
+            }
+            if (document.getElementById('showMembers').checked === true) {
+                numElements++;
+            }
+            if (document.getElementById('showChecklist').checked === true) {
+                numElements++;
+            }
+            fetchData(baseUrl + authDetails, 'card');
+            if (document.getElementById('showBoard').checked === true) {
+                fetchData(boardUrl + authDetails, 'board');
+            }
+            if (document.getElementById('showList').checked === true) {
+                fetchData(listUrl + authDetails, 'list');
+            }
+            if (document.getElementById('showMembers').checked === true) {
+                fetchData(memberUrl + authDetails, 'members');
+            }
+            if (document.getElementById('showChecklist').checked === true) {
+                fetchData(checkListUrl + authDetails, 'checklist');
+            }
+        });
 }
 
-window.TrelloPowerUp.initialize({
-    'card-buttons': function (t, opts) {
-        return t.card('all')
-            .then(function (card) {
-                console.log(card);
-                cardId = card.id;
-                return [{
-                    icon: 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg', // don't use a colored icon here
-                    text: 'Export to Markdown',
-                    callback: onBtnClick,
-                    condition: 'always'
-                }];
-            });
-    }
+window.fields.addEventListener('submit', function(event){
+    event.preventDefault();
+    onBtnClick()
 });
