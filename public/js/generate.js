@@ -191,6 +191,7 @@ onBtnClick = function() {
 }
 
 window.fields.addEventListener('submit', function(event){
+    console.log("In heree");
     event.preventDefault();
     return onBtnClick()
     .then(function(){
