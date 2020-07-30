@@ -152,8 +152,10 @@ onBtnClick = function() {
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
+    console.log("here tooo");
     return t.card('all')
         .then(function(card) {
+            console.log(card);
             const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
             const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
 
@@ -194,7 +196,7 @@ window.fields.addEventListener('submit', function(event){
     console.log("In heree");
     event.preventDefault();
     onBtnClick()
-    .then(function(){
-        t.closePopup();
-    });
+    // .then(function(){
+    //     t.closePopup();
+    // });
 });
