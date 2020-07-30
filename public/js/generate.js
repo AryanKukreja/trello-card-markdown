@@ -30,8 +30,7 @@ let boardPlaceholder = '';
 let cardName = '';
 let numElements = 1;
 
-function triggerConsoleLog() {
-    console.log("We in the printing room");
+function triggerFileSave() {
     dataObtained += 1;
 
     if (dataObtained === numElements) {
@@ -141,7 +140,7 @@ function fetchData(url, dataType) {
             }
         })
         .then(() => {
-            triggerConsoleLog();
+            triggerFileSave();
         })
         .catch(err => console.error(err));
 }
@@ -163,6 +162,7 @@ onBtnClick = function() {
             const listUrl = baseUrl + '/list';
             const memberUrl = baseUrl + '/members';
 
+            numElements = 1
             if (document.getElementById('showBoard').checked === true) {
                 numElements++;
             }
