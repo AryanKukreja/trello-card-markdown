@@ -12,7 +12,7 @@ window.TrelloPowerUp.initialize({
                         return t.popup({
                             title: "Select Fields",
                             url: "options.html",
-                            height: 250
+                            height: 240
                         })
                     },
                     condition: 'always'
