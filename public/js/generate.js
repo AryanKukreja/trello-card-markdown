@@ -80,9 +80,17 @@ function addCardDetailsToOutput(cardInfo) {
 
     // Add labels
     if (cardInfo.labels.length > 0) {
-        cardInfo.labels.forEach((label) => {
-            markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace(/ENTER_LABEL_NAME_HERE/g, label.name) + ' ';
-        });
+        if (document.getElementById('addStyle').checked === false) {
+            cardInfo.labels.forEach((label) => {
+                markdownCard += labelTemplate.replace(/ENTER_COLOR_HERE/g, colors[label.color]).replace(/ENTER_LABEL_NAME_HERE/g, label.name) + ' ';
+            });
+        }
+        else {
+            cardInfo.labels.forEach((label) => {
+                markdownCard += label.name + ' (' + label.color + '), ';
+            });
+            markdownCard = markdownCard.slice(0, -2);
+        }
     }
 
     // Add due date
@@ -95,10 +103,17 @@ function addCardDetailsToOutput(cardInfo) {
 function addMembersToOutput(memberInfo) {
     let markdownMembers = '';
     if (memberInfo.length > 0) {
-        markdownMembers += '## Members of Card: \n'
-        memberInfo.forEach((member) => {
-            markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + '  ' + member.fullName + '\n';
-        })
+        markdownMembers += '## Members of Card: \n';
+        if (document.getElementById('addStyle').checked === false) {
+            memberInfo.forEach((member) => {
+                markdownMembers += memberTemplate.replace(/ENTER_MEMBER_HERE/g, member.initials) + '  ' + member.fullName + '\n';
+            });
+        }
+        else {
+            memberInfo.forEach((member) => {
+                markdownMembers += '- ' +  member.fullName + '\n'
+            });
+        }
     }
 
     markdownMemberDetails += markdownMembers;
