@@ -13,7 +13,7 @@ window.TrelloPowerUp.initialize({
     'show-authorization': function(t, options){
         return t.popup({
             title: 'Authorize Your Account',
-            url: 'auth.html',
+            url: './auth.html',
             height: 140,
         });
     },
