@@ -8,7 +8,7 @@ window.TrelloPowerUp.initialize({
             .then(function(token){
                 if (token) {
                     console.log(token)
-                    process.env['TOKEN'] = token.toString();
+                    process.env['TRELLO_TOKEN'] = token.toString();
                     return { authorized: true };
                 } else {
                     return { authorized: false };
