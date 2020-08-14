@@ -4,16 +4,15 @@ let Promise = TrelloPowerUp.Promise;
 
 window.TrelloPowerUp.initialize({
     'authorization-status': function(t, options){
-        console.log(t);
-        return t.get('member', 'private', 'token')
-            .then(function(token){
-                return { authorized: token !== null };
+        return t.get('member', 'private', 'authToken')
+            .then(function(authToken) {
+                return { authorized: authToken != null }
             });
     },
     'show-authorization': function(t, options){
         return t.popup({
-            title: 'Authorize Your Account',
-            url: './auth.html',
+            title: 'Authorize Account',
+            url: 'auth.html',
             height: 140,
         });
     },
