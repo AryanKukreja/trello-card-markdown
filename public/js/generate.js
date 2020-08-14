@@ -131,9 +131,11 @@ function fetchData(url, dataType) {
             'Accept': 'application/json'
         }
     }).then(response => {
-        console.log(
-            `Response: ${response.status} ${response.statusText}`
-        );
+        if (response.status >= 400) {
+            console.log(
+                `Response: ${response.status} ${response.statusText}`
+            );
+        }
         return response.text();
     })
         .then((text) => {
