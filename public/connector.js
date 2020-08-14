@@ -7,25 +7,15 @@ window.TrelloPowerUp.initialize({
         console.log(t);
         return t.get('member', 'private', 'token')
             .then(function(token){
-                if(token){
-                    process.env['TRELLO_TOKEN'] = token.toString();
-                    return { authorized: true };
-                }
-                return { authorized: false };
+                return { authorized: token !== null };
             });
     },
     'show-authorization': function(t, options){
-        let trelloAPIKey = process.env['TRELLO_KEY'];
-        if (trelloAPIKey) {
-            return t.popup({
-                title: 'My Auth Popup',
-                args: { apiKey: trelloAPIKey }, // Pass in API key to the iframe
-                url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
-                height: 140,
-            });
-        } else {
-            console.log("🙈 Looks like you need to add your API key to the project!");
-        }
+        return t.popup({
+            title: 'Authorize Your Account',
+            url: 'auth.html',
+            height: 140,
+        });
     },
     'card-buttons': function (t, opts) {
         return t.card('all')
