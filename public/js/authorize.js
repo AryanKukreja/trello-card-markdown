@@ -12,7 +12,7 @@ let tokenLooksValid = function(token) {
 }
 
 document.getElementById('auth-btn').addEventListener('click', function(){
-    t.authorize(trelloAuthUrl, { height: 680, width: 580, validToken: tokenLooksValid })
+    t.authorize(trelloAuthUrl, { height: 720, width: 580, validToken: tokenLooksValid })
         .then(function(token){
             return t.set('member', 'private', 'token', token);
         })
