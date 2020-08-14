@@ -171,8 +171,6 @@ onBtnClick = function() {
         .then(function(token) {
             return t.card('all')
                 .then(function(card) {
-                    process.env['TRELLO_KEY'] = token.toString();
-                    console.log(process.env['TRELLO_KEY'])
                     const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
                     const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + token;
 
