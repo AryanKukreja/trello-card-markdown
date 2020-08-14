@@ -50,7 +50,7 @@ window.TrelloPowerUp.initialize({
                                 title: 'Grant Access',
                                 args: { apiKey: process.env['TRELLO_KEY'] },
                                 url: './authorize.html',
-                                height: 160,
+                                height: 145,
                             });
                         },
                         condition: 'always'
