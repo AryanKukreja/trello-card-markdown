@@ -37,7 +37,6 @@ function triggerFileSave() {
         markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
         markdownOutput += markdownMemberDetails + markdownCheckListDetails;
 
-        console.log(markdownOutput);
         const fileName = cardName.replace(/\s+/g, '') + '.md';
 
         let blob = new Blob([markdownOutput], {type: "text/plain;charset=utf-8"});
