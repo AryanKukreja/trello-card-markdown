@@ -37,7 +37,6 @@ function triggerFileSave() {
         markdownOutput = markdownCardDetails.replace(new RegExp(boardPlaceholder, 'g'), markdownBoardDetails + markdownListDetails);
         markdownOutput += markdownMemberDetails + markdownCheckListDetails;
 
-        console.log(markdownOutput);
         const fileName = cardName.replace(/\s+/g, '') + '.md';
 
         let blob = new Blob([markdownOutput], {type: "text/plain;charset=utf-8"});
@@ -132,9 +131,11 @@ function fetchData(url, dataType) {
             'Accept': 'application/json'
         }
     }).then(response => {
-        console.log(
-            `Response: ${response.status} ${response.statusText}`
-        );
+        if (response.status >= 400) {
+            console.log(
+                `Response: ${response.status} ${response.statusText}`
+            );
+        }
         return response.text();
     })
         .then((text) => {
@@ -167,43 +168,46 @@ onBtnClick = function() {
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
-    return t.card('all')
-        .then(function(card) {
-            const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
-            const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
+    return t.get('member', 'private', 'token')
+        .then(function(token) {
+            return t.card('all')
+                .then(function(card) {
+                    const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
+                    const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + token;
 
-            const checkListUrl = baseUrl + '/checklists';
-            const boardUrl = baseUrl + '/board';
-            const listUrl = baseUrl + '/list';
-            const memberUrl = baseUrl + '/members';
+                    const checkListUrl = baseUrl + '/checklists';
+                    const boardUrl = baseUrl + '/board';
+                    const listUrl = baseUrl + '/list';
+                    const memberUrl = baseUrl + '/members';
 
-            numElements = 1
-            if (document.getElementById('showBoard').checked === true) {
-                numElements++;
-            }
-            if (document.getElementById('showList').checked === true) {
-                numElements++;
-            }
-            if (document.getElementById('showMembers').checked === true) {
-                numElements++;
-            }
-            if (document.getElementById('showChecklist').checked === true) {
-                numElements++;
-            }
-            fetchData(baseUrl + authDetails, 'card');
-            if (document.getElementById('showBoard').checked === true) {
-                fetchData(boardUrl + authDetails, 'board');
-            }
-            if (document.getElementById('showList').checked === true) {
-                fetchData(listUrl + authDetails, 'list');
-            }
-            if (document.getElementById('showMembers').checked === true) {
-                fetchData(memberUrl + authDetails, 'members');
-            }
-            if (document.getElementById('showChecklist').checked === true) {
-                fetchData(checkListUrl + authDetails, 'checklist');
-            }
-        });
+                    numElements = 1
+                    if (document.getElementById('showBoard').checked === true) {
+                        numElements++;
+                    }
+                    if (document.getElementById('showList').checked === true) {
+                        numElements++;
+                    }
+                    if (document.getElementById('showMembers').checked === true) {
+                        numElements++;
+                    }
+                    if (document.getElementById('showChecklist').checked === true) {
+                        numElements++;
+                    }
+                    fetchData(baseUrl + authDetails, 'card');
+                    if (document.getElementById('showBoard').checked === true) {
+                        fetchData(boardUrl + authDetails, 'board');
+                    }
+                    if (document.getElementById('showList').checked === true) {
+                        fetchData(listUrl + authDetails, 'list');
+                    }
+                    if (document.getElementById('showMembers').checked === true) {
+                        fetchData(memberUrl + authDetails, 'members');
+                    }
+                    if (document.getElementById('showChecklist').checked === true) {
+                        fetchData(checkListUrl + authDetails, 'checklist');
+                    }
+                });
+        })
 }
 
 window.fields.addEventListener('submit', function(event){
