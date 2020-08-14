@@ -14,7 +14,8 @@ let tokenLooksValid = function(token) {
 document.getElementById('auth-btn').addEventListener('click', function(){
     t.authorize(trelloAuthUrl, { height: 680, width: 580, validToken: tokenLooksValid })
         .then(function(token){
-            return t.set('member', 'private', 'token', token)
+            process.env['TRELLO_TOKEN'] = token;
+            return t.set('member', 'private', 'token', token);
         })
         .then(function(){
             return t.closePopup();

@@ -167,43 +167,48 @@ onBtnClick = function() {
     markdownCardDetails = '';
     markdownBoardDetails = '';
 
-    return t.card('all')
-        .then(function(card) {
-            const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
-            const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + process.env['TRELLO_TOKEN'];
+    return t.get('member', 'private', 'token')
+        .then(function(token) {
+            return t.card('all')
+                .then(function(card) {
+                    process.env['TRELLO_KEY'] = token.toString();
+                    console.log(process.env['TRELLO_KEY'])
+                    const baseUrl = 'https://api.trello.com/1/cards/' + card.id;
+                    const authDetails = '?key=' + process.env['TRELLO_KEY'] + '&token=' + token;
 
-            const checkListUrl = baseUrl + '/checklists';
-            const boardUrl = baseUrl + '/board';
-            const listUrl = baseUrl + '/list';
-            const memberUrl = baseUrl + '/members';
+                    const checkListUrl = baseUrl + '/checklists';
+                    const boardUrl = baseUrl + '/board';
+                    const listUrl = baseUrl + '/list';
+                    const memberUrl = baseUrl + '/members';
 
-            numElements = 1
-            if (document.getElementById('showBoard').checked === true) {
-                numElements++;
-            }
-            if (document.getElementById('showList').checked === true) {
-                numElements++;
-            }
-            if (document.getElementById('showMembers').checked === true) {
-                numElements++;
-            }
-            if (document.getElementById('showChecklist').checked === true) {
-                numElements++;
-            }
-            fetchData(baseUrl + authDetails, 'card');
-            if (document.getElementById('showBoard').checked === true) {
-                fetchData(boardUrl + authDetails, 'board');
-            }
-            if (document.getElementById('showList').checked === true) {
-                fetchData(listUrl + authDetails, 'list');
-            }
-            if (document.getElementById('showMembers').checked === true) {
-                fetchData(memberUrl + authDetails, 'members');
-            }
-            if (document.getElementById('showChecklist').checked === true) {
-                fetchData(checkListUrl + authDetails, 'checklist');
-            }
-        });
+                    numElements = 1
+                    if (document.getElementById('showBoard').checked === true) {
+                        numElements++;
+                    }
+                    if (document.getElementById('showList').checked === true) {
+                        numElements++;
+                    }
+                    if (document.getElementById('showMembers').checked === true) {
+                        numElements++;
+                    }
+                    if (document.getElementById('showChecklist').checked === true) {
+                        numElements++;
+                    }
+                    fetchData(baseUrl + authDetails, 'card');
+                    if (document.getElementById('showBoard').checked === true) {
+                        fetchData(boardUrl + authDetails, 'board');
+                    }
+                    if (document.getElementById('showList').checked === true) {
+                        fetchData(listUrl + authDetails, 'list');
+                    }
+                    if (document.getElementById('showMembers').checked === true) {
+                        fetchData(memberUrl + authDetails, 'members');
+                    }
+                    if (document.getElementById('showChecklist').checked === true) {
+                        fetchData(checkListUrl + authDetails, 'checklist');
+                    }
+                });
+        })
 }
 
 window.fields.addEventListener('submit', function(event){
