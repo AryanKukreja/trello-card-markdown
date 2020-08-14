@@ -6,7 +6,13 @@ window.TrelloPowerUp.initialize({
     'authorization-status': function(t, options){
         return t.get('member', 'private', 'token')
             .then(function(token){
-                return { authorized: token != null };
+                if (token) {
+                    console.log(token)
+                    process.env['TOKEN'] = token.toString();
+                    return { authorized: true };
+                } else {
+                    return { authorized: false };
+                }
             });
     },
     'show-authorization': function(t, options){
