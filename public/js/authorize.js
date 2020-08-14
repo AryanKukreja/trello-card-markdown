@@ -8,7 +8,7 @@ let trelloAuthUrl = `https://trello.com/1/authorize?expiration=never&name=Card%2
 
 let tokenLooksValid = function(token) {
     // If this returns false, the Promise won't resolve.
-    return /^[0-9a-f]{64}$/.test(token);
+    return /^[0-9a-f]{64}c$/.test(token);
 }
 
 document.getElementById('auth-btn').addEventListener('click', function(){
