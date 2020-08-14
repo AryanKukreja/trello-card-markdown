@@ -28,9 +28,10 @@
     document.getElementById('auth-btn').addEventListener('click', function(){
         t.authorize(trelloAuthUrl, { height: 680, width: 580, validToken: tokenLooksValid })
             .then(function(token){
-                return t.set('member', 'private', 'token', token)
+                return t.set('member', 'private', 'token', token);
             })
             .then(function(){
+                console.log("In here")
                 return t.closePopup();
             });
     });

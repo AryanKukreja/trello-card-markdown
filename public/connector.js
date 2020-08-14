@@ -4,10 +4,10 @@ let Promise = TrelloPowerUp.Promise;
 
 window.TrelloPowerUp.initialize({
     'authorization-status': function(t, options){
+        console.log(t);
         return t.get('member', 'private', 'token')
             .then(function(token){
                 if(token){
-                    console.log(token);
                     process.env['TRELLO_TOKEN'] = token.toString();
                     return { authorized: true };
                 }
