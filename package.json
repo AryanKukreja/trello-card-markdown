@@ -13,7 +13,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "parcel-bundler": "^1.12.4"
   }
 }
